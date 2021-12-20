@@ -7,23 +7,32 @@ const FS = require('fs');
 
 const path = './README.md';
 
+const licenses = 
+{
+MIT:{img:'(https://img.shields.io/badge/License-MIT-yellow.svg)', link:'https://opensource.org/licenses/MIT'},
+GPLv3:{img:'(https://img.shields.io/badge/License-GPLv3-blue.svg)', link:'(https://www.gnu.org/licenses/gpl-3.0)'},
+ISC:{img:'(https://img.shields.io/badge/License-ISC-blue.svg)', link:'(https://opensource.org/licenses/ISC)'},
+ApacheLicense:{img:'(https://img.shields.io/badge/License-Apache_2.0-blue.svg)', link:'(https://opensource.org/licenses/Apache-2.0)'}
+};
+
 // TODO: Create an array of questions for user input
 const questions = 
 [
 {name:'Title', message:'What is the title?'},
 {name:'Description', message:'What is your project description?'},
-{type:'List', name:'TableofContents', message:'What are your table of contents?'},
-{name:'Installation', message:'How to install the project'},
-{type:'checkbox', name:'License', message:'What is the license for the project?', choices:['GNU', 'MIT', 'GPLv3', 'ISC', 'Apache License 2.0']},{name:'Contributing', message:'Insert contributers, seperate with commas'},
-{name:'Tests', message:'What are your tests? Seperate with commas.'}
+// {type:'List', name:'TableofContents', message:'What are your table of contents?'},
+{name:'Installation', message:'How to install the project:'},
+{type:'checkbox', name:'License', message:'What is the license for the project?', choices:['GNU GPLv3', 'MIT', 'ISC', 'Apache License 2.0']},{name:'Contributing', message:'Insert contributers, seperate with commas:'},
+{name:'GitHub', message:'What is your github username?'},
+{name:'Email', message:'What is your email for questions?'}
 ];
 
 Inquirer.prompt(questions).then((answers)=>
 {
   let content = [];
-  content.push(answers.Title, answers.Description, answers.TableofContents, answers.Installation, JSON.stringify(answers.License),
-    answers.Contributing, answers.Tests)
-    console.log(JSON.stringify(answers.License))
+  let license = answers.License[0];
+  content.push(answers.Title, answers.Description, 'badges', 'Table of Contents', answers.Installation, license,
+    answers.Contributing, {questions: {GitHub: answers.GitHub, Email: answers.Email}});
   writeToFile(path, content);
 });
 
@@ -41,24 +50,58 @@ function format(i, element)
       break;
 
     case 2:
-      return `## Table of Contents \n - [Installation](#installation)\n - [License](#license)\n - [Contributing](#contributing)\n - [Tests](#tests)`
+      // 'MIT', 'GPLv3', 'ISC', 'Apache License 2.0'
+      if(element = 'MIT')
+      {
+        return `## Badge \n ![License]${licenses.MIT.img}` 
+      }
+      if(element = 'GPLv3')
+      {
+        return `## Badge \n ![License]${licenses.GPLv3.img}` 
+      }
+      if(element = 'ISC')
+      {
+        return `## Badge \n ![License]${licenses.ISC.img}` 
+      }
+      if(element = 'Apache License 2.0')
+      {
+        return `## Badge \n ![License]${licenses.ApacheLicense.img}`
+      }
       break;
 
     case 3:
-      return `## Installation \n${element}`
+      return `## Table of Contents \n - [Installation](#installation)\n - [License](#license)\n - [Contributing](#contributing)\n - [Questions](#questions)`
       break;
 
     case 4:
-      return `## License \n${element}`
+      return `## Installation \n${element}`
       break;
 
     case 5:
-      return `## Contributing \n${element}`
+      if(element = 'MIT')
+      {
+        return `## License \n ${licenses.MIT.link}` 
+      }
+      if(element = 'GPLv3')
+      {
+        return `## License \n ${licenses.GPLv3.link}` 
+      }
+      if(element = 'ISC')
+      {
+        return `## License \n ${licenses.ISC.link}` 
+      }
+      if(element = 'Apache License 2.0')
+      {
+        return `## License \n ${licenses.ApacheLicense.link}`
+      }
       break;
 
     case 6:
-      return `## Tests \n${element}`
+      return `## Contributing \n${element}`
       break;
+
+    case 7:
+      return `## Questions \n - ${element.questions.GitHub} \n - ${element.questions.Email}`
   }
 }
 

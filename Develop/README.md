@@ -1,16 +1,19 @@
 # README Sample
 ## Description 
-This README.md file was created using node from a command line!
+A readme generator made using inquirer with command line interface
+## Badge 
+ ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 ## Table of Contents 
  - [Installation](#installation)
  - [License](#license)
  - [Contributing](#contributing)
- - [Tests](#tests)
+ - [Questions](#questions)
 ## Installation 
-You have to git pull from the repository on github
+Install the project through the github repository
 ## License 
-["GNU"]
+ https://opensource.org/licenses/MIT
 ## Contributing 
 breenud39
-## Tests 
-READMEGenerator
+## Questions 
+ - breenud39 
+ - evangelodamianos@gmail.com, Ask me any questions!
