@@ -101,7 +101,7 @@ function format(i, element)
       break;
 
     case 7:
-      return `## Questions \n - ${element.questions.GitHub} \n - ${element.questions.Email}`
+      return `## Questions \n - http://github.com/${element.questions.GitHub} \n - ${element.questions.Email}`
   }
 }
 
